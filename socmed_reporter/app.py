@@ -60,24 +60,20 @@ def soc_med(name):
         links = []
         query = f"site:{site} {name}"
 
-        if name == "print_result":
-            print(f"\n---------- {site} ----------")
-            for x in socmed[f"{site}"]:
-                print(x)
-        else:
-            for url in search(query, tld="com", num=4, stop=4, pause=0):
-                if not check_keyword(f"{site}",url):  # go check if the excluded keyword exist in the results
-                    link = url.split("/")  # split the links to find which user profile is not redundant in the result
-                    if link[3] == "people" and link[4] not in links:
-                        links.append("people/{link[4]}")  # some result has /people/ so need to manually add inside list, add the username if not in the list yet
-                    elif link[3] == "public" and link[4] not in links:
-                        links.append(link[4])
-                    elif link[3] not in links:
-                        links.append(link[3]) # add the username if not in the list yet
 
-            for l in links:
-                if f"https://www.{site}/{l}" not in socmed[f"{site}"]:
-                    socmed[f"{site}"].append(f"https://www.{site}/{l}")
+        for url in search(query, tld="com", num=4, stop=4, pause=0):
+            if not check_keyword(f"{site}",url):  # go check if the excluded keyword exist in the results
+                link = url.split("/")  # split the links to find which user profile is not redundant in the result
+                if link[3] == "people" and link[4] not in links:
+                    links.append("people/{link[4]}")  # some result has /people/ so need to manually add inside list, add the username if not in the list yet
+                elif link[3] == "public" and link[4] not in links:
+                    links.append(link[4])
+                elif link[3] not in links:
+                    links.append(link[3]) # add the username if not in the list yet
+
+        for l in links:
+            if f"https://www.{site}/{l}" not in socmed[f"{site}"]:
+                socmed[f"{site}"].append(f"https://www.{site}/{l}")
     return socmed      
 
 
